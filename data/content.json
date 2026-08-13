@@ -1,0 +1,41 @@
+{
+  "projects": [
+    {
+      "id": "mantis",
+      "name": "The Mantis",
+      "tags": [
+        "3D Modelling"
+      ],
+      "blurb": "A high-detail 3D model of Empusa pennata. Built to capture the beauty of the mantis working from a monocular alone.",
+      "status": "complete",
+      "link": "project-mantis.html",
+      "image": "/MANTIS MAIN.jpeg"
+    },
+    {
+      "id": "weather",
+      "name": "Weather Station",
+      "tags": [
+        "Electronics",
+        "ESP-32"
+      ],
+      "blurb": "A custom ESP-32 weather station. Logs temperature, humidity and pressure to an SD card and serves a live dashboard over Wi-Fi.",
+      "status": "coming-soon",
+      "link": null,
+      "image": null
+    },
+    {
+      "id": "avian",
+      "name": "Avian Diversity Index",
+      "tags": [
+        "Data",
+        "Ecology"
+      ],
+      "blurb": "A species-richness survey across three habitat types in Kodagu. 47 species logged over six months using transect walks.",
+      "status": "coming-soon",
+      "link": null,
+      "image": null
+    }
+  ],
+  "fieldNotes": [],
+  "about": null
+}

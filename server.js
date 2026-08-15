@@ -48,8 +48,8 @@ const SEED = {
 };
 
 // ── Persistence ──────────────────────────────────────────────────────────────
-fs.mkdirSync(DATA_DIR,    { recursive: true });
-fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+try { fs.mkdirSync(DATA_DIR,    { recursive: true }); } catch (e) { console.error('Cannot create DATA_DIR:', e.message); }
+try { fs.mkdirSync(UPLOADS_DIR, { recursive: true }); } catch (e) { console.error('Cannot create UPLOADS_DIR:', e.message); }
 
 const read = () => {
   if (!fs.existsSync(DATA_FILE)) {

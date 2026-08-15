@@ -36,6 +36,21 @@
       "image": null
     }
   ],
-  "fieldNotes": [],
-  "about": null
+  "fieldNotes": [
+    {
+      "id": "2bdf876c-5937-4ab3-a0df-8acdb4ac1c34",
+      "title": "Entry title",
+      "text": "What you observed.",
+      "image": null
+    }
+  ],
+  "about": {
+    "photo": null,
+    "fieldworkPhoto": "/uploads/45a570bb-869b-4341-aa7e-06d56cadf2dd.jpg",
+    "bio": [
+      "I am from Kodagu. Growing up close to the forest left me permanently curious about the life around me, and photography became the way I explored it.",
+      "Photographing macro life raised a question I could not answer with a lens: could I model and animate these small creatures, and show them from a perspective a camera cannot reach? That question became 3D modelling and animation.",
+      "Machines and electronics had always pulled at me in the same way. Learning them let me bring the two halves together — building electronic tools for wildlife monitoring and research."
+    ]
+  }
 }

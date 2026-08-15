@@ -103,6 +103,7 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
 
 /* ── Image overlay ─────────────────────────────────────────────────────── */
 .edit-img-wrap { position: relative; }
+.about-aside.edit-img-wrap { padding: 0; }
 .edit-img-overlay {
   position: absolute; inset: 0; z-index: 5;
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -198,6 +199,20 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
 
   // ── Image controls ────────────────────────────────────────────────────────
   // Wraps an element with an overlay (replace / remove) or renders a click-to-add empty state.
+  function slotAR(container) {
+    const r = container.getBoundingClientRect();
+    if (r.width && r.height) return r.width / r.height;
+    // Fallback: read CSS aspect-ratio property
+    const cssAR = getComputedStyle(container).aspectRatio;
+    if (cssAR && cssAR !== 'auto') {
+      const parts = cssAR.split('/');
+      return parts.length === 2
+        ? parseFloat(parts[0]) / parseFloat(parts[1])
+        : parseFloat(cssAR);
+    }
+    return null;
+  }
+
   function makeImgEditable(container, imgEl, onNewFile, onRemove) {
     container.classList.add('edit-img-wrap');
 
@@ -215,21 +230,25 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
     const overlay = document.createElement('div');
     overlay.className = 'edit-img-overlay';
 
-    const replaceBtn = document.createElement('button');
-    replaceBtn.className = 'edit-img-btn';
-    replaceBtn.textContent = 'Replace';
+    // Replace — use label so clicking it reliably opens the file picker in all browsers
+    const replaceLabel = document.createElement('label');
+    replaceLabel.className = 'edit-img-btn';
+    replaceLabel.textContent = 'Replace';
+    replaceLabel.style.cursor = 'pointer';
 
     const fileIn = document.createElement('input');
     fileIn.type = 'file'; fileIn.accept = 'image/*'; fileIn.style.display = 'none';
     fileIn.addEventListener('change', () => {
       const f = fileIn.files[0]; if (!f) return;
-      onNewFile(f, imgEl);
-      const reader = new FileReader();
-      reader.onload = e => { imgEl.src = e.target.result; };
-      reader.readAsDataURL(f);
+      fileIn.value = '';
+      window.openCropper(f, { aspectRatio: slotAR(container) }, croppedFile => {
+        onNewFile(croppedFile, imgEl);
+        const reader = new FileReader();
+        reader.onload = e => { imgEl.src = e.target.result; };
+        reader.readAsDataURL(croppedFile);
+      });
     });
-
-    replaceBtn.addEventListener('click', () => fileIn.click());
+    replaceLabel.appendChild(fileIn);
 
     const removeBtn = document.createElement('button');
     removeBtn.className = 'edit-img-btn rm';
@@ -244,7 +263,7 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
       container.classList.add('edit-img-wrap');
     });
 
-    overlay.append(replaceBtn, fileIn, removeBtn);
+    overlay.append(replaceLabel, removeBtn);
     container.appendChild(overlay);
   }
 
@@ -256,21 +275,24 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
     fileIn.type = 'file'; fileIn.accept = 'image/*';
     fileIn.addEventListener('change', () => {
       const f = fileIn.files[0]; if (!f) return;
-      const img = document.createElement('img');
-      img.dataset.src = '';
-      empty.replaceWith(img);
-      container.classList.add('edit-img-wrap');
-      onNewFile(f, img);
-      const reader = new FileReader();
-      reader.onload = e => {
-        img.src = e.target.result;
-        makeImgEditable(container, img, onNewFile, () => {
-          container.classList.remove('edit-img-wrap');
-          renderEmptySlot(container, onNewFile);
-          container.classList.add('edit-img-wrap');
-        });
-      };
-      reader.readAsDataURL(f);
+      fileIn.value = '';
+      window.openCropper(f, { aspectRatio: slotAR(container) }, croppedFile => {
+        const img = document.createElement('img');
+        img.dataset.src = '';
+        empty.replaceWith(img);
+        container.classList.add('edit-img-wrap');
+        onNewFile(croppedFile, img);
+        const reader = new FileReader();
+        reader.onload = e => {
+          img.src = e.target.result;
+          makeImgEditable(container, img, onNewFile, () => {
+            container.classList.remove('edit-img-wrap');
+            renderEmptySlot(container, onNewFile);
+            container.classList.add('edit-img-wrap');
+          });
+        };
+        reader.readAsDataURL(croppedFile);
+      });
     });
     empty.appendChild(fileIn);
     container.appendChild(empty);

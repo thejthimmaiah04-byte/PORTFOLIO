@@ -52,7 +52,7 @@
     const bar = document.createElement('div');
     bar.id = 'pe-bar';
     bar.innerHTML =
-      '<a id="pe-back" href="/edit">← Back to portfolio</a>' +
+      '<a id="pe-back" href="/admin">← Back to portfolio</a>' +
       '<span id="pe-label">EDIT MODE</span>' +
       '<span id="pe-msg"></span>' +
       '<button id="pe-save">Save changes</button>';
@@ -197,17 +197,20 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
     const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*';
     fi.addEventListener('change', () => {
       const f = fi.files[0]; if (!f) return;
-      const img = document.createElement('img'); img.dataset.src = '';
-      empty.replaceWith(img); figure.classList.add('pe-img-wrap');
-      pendingImgs.set(img, f);
-      const r = new FileReader();
-      r.onload = e => {
-        img.src = e.target.result;
-        attachImgOverlay(figure, img, () => {
-          img.remove(); figure.classList.remove('pe-img-wrap'); renderHeroEmpty(figure);
-        });
-      };
-      r.readAsDataURL(f);
+      fi.value = '';
+      window.openCropper(f, { aspectRatio: 16 / 9 }, cropped => {
+        const img = document.createElement('img'); img.dataset.src = '';
+        empty.replaceWith(img); figure.classList.add('pe-img-wrap');
+        pendingImgs.set(img, cropped);
+        const r = new FileReader();
+        r.onload = e => {
+          img.src = e.target.result;
+          attachImgOverlay(figure, img, () => {
+            img.remove(); figure.classList.remove('pe-img-wrap'); renderHeroEmpty(figure);
+          });
+        };
+        r.readAsDataURL(cropped);
+      });
     });
     empty.appendChild(fi);
     figure.appendChild(empty);
@@ -216,19 +219,23 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
   function attachImgOverlay(wrap, img, onRemove) {
     const ov = document.createElement('div'); ov.className = 'pe-overlay';
 
-    const replBtn = document.createElement('button'); replBtn.className = 'pe-btn'; replBtn.textContent = 'Replace';
+    const replLabel = document.createElement('label'); replLabel.className = 'pe-btn'; replLabel.textContent = 'Replace'; replLabel.style.cursor = 'pointer';
     const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*'; fi.style.display = 'none';
     fi.addEventListener('change', () => {
       const f = fi.files[0]; if (!f) return;
-      pendingImgs.set(img, f);
-      const r = new FileReader(); r.onload = e => { img.src = e.target.result; }; r.readAsDataURL(f);
+      fi.value = '';
+      const ar = (() => { const w = wrap.offsetWidth, h = wrap.offsetHeight; return (w && h) ? w/h : null; })();
+      window.openCropper(f, { aspectRatio: ar }, cropped => {
+        pendingImgs.set(img, cropped);
+        const r = new FileReader(); r.onload = e => { img.src = e.target.result; }; r.readAsDataURL(cropped);
+      });
     });
-    replBtn.addEventListener('click', () => fi.click());
+    replLabel.appendChild(fi);
 
     const rmBtn = document.createElement('button'); rmBtn.className = 'pe-btn rm'; rmBtn.textContent = 'Remove';
     rmBtn.addEventListener('click', () => { pendingImgs.delete(img); ov.remove(); onRemove(); });
 
-    ov.append(replBtn, fi, rmBtn);
+    ov.append(replLabel, rmBtn);
     wrap.appendChild(ov);
   }
 
@@ -325,14 +332,16 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
     const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*';
     fi.addEventListener('change', () => {
       const f = fi.files[0]; if (!f) return;
-      galleryTouched = true;
-      const newSlot = document.createElement('div'); newSlot.className = 'slot glass';
-      const img = document.createElement('img'); img.dataset.src = ''; newSlot.appendChild(img);
-      gallery.insertBefore(newSlot, addSlot);
-      pendingImgs.set(img, f);
-      const r = new FileReader(); r.onload = e => { img.src = e.target.result; attachSlotOverlay(newSlot); };
-      r.readAsDataURL(f);
       fi.value = '';
+      window.openCropper(f, cropped => {
+        galleryTouched = true;
+        const newSlot = document.createElement('div'); newSlot.className = 'slot glass';
+        const img = document.createElement('img'); img.dataset.src = ''; newSlot.appendChild(img);
+        gallery.insertBefore(newSlot, addSlot);
+        pendingImgs.set(img, cropped);
+        const r = new FileReader(); r.onload = e => { img.src = e.target.result; attachSlotOverlay(newSlot); };
+        r.readAsDataURL(cropped);
+      });
     });
     addSlot.appendChild(fi);
     gallery.appendChild(addSlot);
@@ -354,22 +363,26 @@ body.edit-mode [contenteditable]:focus { background: rgba(255,90,0,.13); }
       galleryTouched = true; slot.classList.toggle('slot--scroll'); updatePortBtn();
     });
 
-    // Replace
-    const replBtn = document.createElement('button'); replBtn.className = 'pe-btn'; replBtn.textContent = 'Replace';
+    // Replace — label wraps the input so clicking it always opens the file picker
+    const replLabel = document.createElement('label'); replLabel.className = 'pe-btn'; replLabel.textContent = 'Replace'; replLabel.style.cursor = 'pointer';
     const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'image/*'; fi.style.display = 'none';
     fi.addEventListener('change', () => {
       const f = fi.files[0]; if (!f) return;
-      galleryTouched = true;
-      if (img) pendingImgs.set(img, f);
-      const r = new FileReader(); r.onload = e => { if (img) img.src = e.target.result; }; r.readAsDataURL(f);
+      fi.value = '';
+      const ar = (() => { const w = slot.offsetWidth, h = slot.offsetHeight; return (w && h) ? w/h : null; })();
+      window.openCropper(f, { aspectRatio: ar }, cropped => {
+        galleryTouched = true;
+        if (img) pendingImgs.set(img, cropped);
+        const r = new FileReader(); r.onload = e => { if (img) img.src = e.target.result; }; r.readAsDataURL(cropped);
+      });
     });
-    replBtn.addEventListener('click', () => fi.click());
+    replLabel.appendChild(fi);
 
     // Remove
     const rmBtn = document.createElement('button'); rmBtn.className = 'pe-btn rm'; rmBtn.textContent = 'Remove';
     rmBtn.addEventListener('click', () => { galleryTouched = true; if (img) pendingImgs.delete(img); slot.remove(); });
 
-    ov.append(portBtn, replBtn, fi, rmBtn);
+    ov.append(portBtn, replLabel, rmBtn);
     slot.appendChild(ov);
 
     if (img && !img.dataset.src) {

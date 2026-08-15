@@ -125,6 +125,12 @@ app.get('/', (req, res) => {
       if (a.photo) {
         html = html.replace(/(<div class="portrait[^"]*"[^>]*>[\s\S]*?<img)[^>]+(alt="[^"]*")/, `$1 src="${esc(a.photo)}" $2`);
       }
+      if (a.fieldworkPhoto) {
+        html = html.replace(
+          /<div class="about-aside glass">[\s\S]*?<\/div>/,
+          `<div class="about-aside glass"><img src="${esc(a.fieldworkPhoto)}" alt="Fieldwork" loading="lazy"></div>`
+        );
+      }
       if (a.bio && a.bio.length) {
         const bioHtml = a.bio.map(p => `<p>${esc(p)}</p>`).join('\n        ');
         html = html.replace(/<div class="about-copy">[\s\S]*?<\/div>/, `<div class="about-copy">\n        ${bioHtml}\n      </div>`);
@@ -240,6 +246,7 @@ app.get('/edit-project/:id', (req, res) => {
     html = html.replace('<body', '<body class="edit-mode"');
     html = html.replace('</body>',
       `<script>window.PROJECT_ID=${JSON.stringify(project.id)};</script>\n` +
+      `<script src="/cropper.js"></script>\n` +
       `<script src="/project-edit.js"></script>\n</body>`);
     res.send(html);
   } catch (e) { res.status(500).send('Error: ' + e.message); }
@@ -315,7 +322,7 @@ function injectProjectData(html, project) {
 }
 
 // WYSIWYG edit page
-app.get('/edit', (req, res) => {
+app.get('/admin', (req, res) => {
   try {
     let html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
     const d = read();
@@ -343,7 +350,7 @@ app.get('/edit', (req, res) => {
     }
 
     html = html.replace('<body', '<body class="edit-mode"');
-    html = html.replace('</body>', '<script src="/edit.js"></script>\n</body>');
+    html = html.replace('</body>', '<script src="/cropper.js"></script>\n<script src="/edit.js"></script>\n</body>');
     res.send(html);
   } catch (e) {
     res.status(500).send('Error: ' + e.message);

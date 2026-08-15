@@ -6,8 +6,11 @@ const os = require('os');
 const { randomUUID } = require('crypto');
 
 const ROOT = __dirname;
-const DATA_FILE = path.join(ROOT, 'data', 'content.json');
-const UPLOADS_DIR = path.join(ROOT, 'uploads');
+// On Railway (or any host), set DATA_DIR env var to a writable volume path.
+// Locally falls back to the repo's own data/ and uploads/ folders.
+const DATA_DIR   = process.env.DATA_DIR    ? path.resolve(process.env.DATA_DIR)    : path.join(ROOT, 'data');
+const UPLOADS_DIR = process.env.UPLOADS_DIR ? path.resolve(process.env.UPLOADS_DIR) : path.join(ROOT, 'uploads');
+const DATA_FILE  = path.join(DATA_DIR, 'content.json');
 
 // ── Seed data ────────────────────────────────────────────────────────────────
 const SEED = {
@@ -45,7 +48,7 @@ const SEED = {
 };
 
 // ── Persistence ──────────────────────────────────────────────────────────────
-fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
+fs.mkdirSync(DATA_DIR,    { recursive: true });
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const read = () => {
@@ -358,7 +361,7 @@ app.get('/admin', (req, res) => {
 });
 
 // ── Start ────────────────────────────────────────────────────────────────────
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   const ips = Object.values(os.networkInterfaces())
     .flat()
@@ -368,7 +371,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('\n  Portfolio server running.\n');
   console.log('  Local:   http://localhost:' + PORT);
   ips.forEach(ip => console.log('  Network: http://' + ip + ':' + PORT));
-  console.log('\n  Admin:   http://localhost:' + PORT + '/admin.html');
-  ips.forEach(ip => console.log('  Admin:   http://' + ip + ':' + PORT + '/admin.html'));
+  console.log('\n  Admin:   http://localhost:' + PORT + '/admin');
   console.log('');
 });

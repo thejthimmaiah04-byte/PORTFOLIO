@@ -63,7 +63,34 @@ const write = d => fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2));
 // ── SSR templates ────────────────────────────────────────────────────────────
 const esc = s => (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function projectTile(p) {
+function contributorBadge(p, ownerPhoto) {
+  const collabs = (p.contributors || []).filter(c => !c.isOwner);
+  const ownerImg = ownerPhoto
+    ? `<img src="${esc(ownerPhoto)}" alt="Owner">`
+    : `<span class="t-initials">TT</span>`;
+  let html = `<div class="tile-contributors">`;
+  html += `<div class="t-avatar" title="Thimmaiah">${ownerImg}</div>`;
+  if (collabs.length) {
+    const people = collabs.map(c => {
+      const initials = c.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+      const img = c.photo ? `<img src="${esc(c.photo)}" alt="${esc(c.name)}">` : initials;
+      return `<div class="t-collab-person">
+        <div class="t-avatar-sm">${img}</div>
+        <div class="t-collab-info"><b>${esc(c.name)}</b>${c.role ? `<small>${esc(c.role)}</small>` : ''}</div>
+      </div>`;
+    }).join('');
+    html += `<div class="t-collab-wrap">
+      <div class="t-collab-btn" tabindex="0" aria-label="Collaborators">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="t-collab-tip">${people}</div>
+    </div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function projectTile(p, ownerPhoto) {
   const tags = (p.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join('');
   const shot = p.image
     ? `<img src="${esc(p.image)}" data-src="${esc(p.image)}" alt="${esc(p.name)}">`
@@ -77,6 +104,7 @@ function projectTile(p) {
       <div class="tags">${tags}</div>
       <p class="blurb">${esc(p.blurb)}</p>
       ${cta}
+      ${contributorBadge(p, ownerPhoto)}
     </article>`;
 }
 
@@ -111,8 +139,9 @@ app.get('/', (req, res) => {
     const projects = d.projects || [];
     const notes = d.fieldNotes || [];
 
+    const ownerPhoto = d.about?.photo || null;
     const projectsHtml = projects.length
-      ? projects.map(projectTile).join('\n')
+      ? projects.map(p => projectTile(p, ownerPhoto)).join('\n')
       : `    <article class="tile glass"><div class="shot"><em>No projects yet</em></div><h3 class="name">Add a project</h3><p class="blurb">Open the admin panel to add projects.</p><span class="go disabled" aria-disabled="true">Coming soon</span></article>`;
 
     const notesHtml = notes.length

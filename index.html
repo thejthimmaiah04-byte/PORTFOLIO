@@ -405,6 +405,57 @@
   .tile .go.disabled{
     cursor:default; pointer-events:none; opacity:.4;
   }
+  /* ── Contributor avatars ───────────────────────────────────────────────── */
+  .tile{ position:relative; }
+  .tile-contributors{
+    position:absolute; bottom:14px; right:14px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .t-avatar{
+    width:38px; height:38px; border-radius:50%;
+    border:2px solid rgba(255,255,255,.22);
+    overflow:hidden; background:rgba(20,40,30,.6);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .t-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .t-avatar .t-initials{
+    font-size:11px; font-weight:700; letter-spacing:.04em;
+    color:var(--accent,#d4691e);
+  }
+  /* collab badge — the "multiple people" button */
+  .t-collab-wrap{ position:relative; }
+  .t-collab-btn{
+    width:38px; height:38px; border-radius:50%;
+    border:2px solid rgba(255,255,255,.22);
+    background:rgba(20,40,30,.6);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:rgba(255,255,255,.65);
+  }
+  .t-collab-btn svg{ width:18px; height:18px; }
+  /* tooltip */
+  .t-collab-tip{
+    display:none;
+    position:absolute; bottom:calc(100% + 10px); right:0;
+    background:rgba(8,18,12,.95);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:10px; padding:10px 12px;
+    min-width:190px; z-index:100;
+    backdrop-filter:blur(14px);
+    pointer-events:none;
+  }
+  .t-collab-wrap:hover .t-collab-tip,
+  .t-collab-wrap:focus-within .t-collab-tip{ display:flex; flex-direction:column; gap:10px; }
+  .t-collab-person{ display:flex; align-items:center; gap:10px; }
+  .t-avatar-sm{
+    width:30px; height:30px; border-radius:50%;
+    overflow:hidden; background:rgba(255,255,255,.12);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    font-size:9px; font-weight:700; color:var(--accent,#d4691e);
+  }
+  .t-avatar-sm img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .t-collab-info b{ display:block; font-size:12px; color:rgba(255,255,255,.88); }
+  .t-collab-info small{ font-size:10px; color:rgba(255,255,255,.45); }
 
   .arrows{ position:relative; z-index:2; display:flex; justify-content:center; align-items:center; gap:16px; margin-top:38px; }
   .arrows button{
@@ -1011,6 +1062,9 @@
       <div class="tags"><span class="chip">3D Modelling</span></div>
       <p class="blurb">A high-detail 3D model of Empusa pennata. Built to capture the beauty of the mantis working from a monocular alone.</p>
       <a class="go" href="project-mantis.html">View project</a>
+      <div class="tile-contributors">
+        <div class="t-avatar" title="Thimmaiah"><span class="t-initials">TT</span></div>
+      </div>
     </article>
     <article class="tile glass" data-id="weather" data-type="project" data-status="coming-soon" data-link="">
       <div class="shot"><em>Replace &mdash; project image</em></div>

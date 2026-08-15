@@ -9,7 +9,8 @@
       "blurb": "A high-detail 3D model of Empusa pennata. Built to capture the beauty of the mantis working from a monocular alone.",
       "status": "complete",
       "link": "project-mantis.html",
-      "image": "/MANTIS-MAIN.jpeg"
+      "image": "/MANTIS-MAIN.jpeg",
+      "contributors": [{ "name": "Thimmaiah", "isOwner": true }]
     },
     {
       "id": "weather",
@@ -50,7 +51,7 @@
     "bio": [
       "I am from Kodagu. Growing up close to the forest left me permanently curious about the life around me, and photography became the way I explored it.",
       "Photographing macro life raised a question I could not answer with a lens: could I model and animate these small creatures, and show them from a perspective a camera cannot reach? That question became 3D modelling and animation.",
-      "Machines and electronics had always pulled at me in the same way. Learning them let me bring the two halves together — building electronic tools for wildlife monitoring and research."
+      "Machines and electronics had always pulled at me in the same way. Learning them let me bring the two halves together — building electronic tools for wildlife monitoring and research...."
     ]
   }
 }

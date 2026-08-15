@@ -22,7 +22,7 @@ const SEED = {
       blurb: 'A high-detail 3D model of Empusa pennata. Built to capture the beauty of the mantis working from a monocular alone.',
       status: 'complete',
       link: 'project-mantis.html',
-      image: '/MANTIS MAIN.jpeg',
+      image: '/MANTIS-MAIN.jpeg',
     },
     {
       id: 'weather',

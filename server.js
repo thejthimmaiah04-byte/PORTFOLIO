@@ -119,8 +119,8 @@ app.get('/', (req, res) => {
       ? notes.map(noteTile).join('\n')
       : `    <article class="tile glass"><div class="shot"><em>No entries yet</em></div><h3 class="name">Add a field note</h3><p class="blurb">Open the admin panel to add field notes.</p></article>`;
 
-    html = html.replace('<!-- PROJECTS_TILES -->', projectsHtml);
-    html = html.replace('<!-- NOTES_TILES -->', notesHtml);
+    html = html.replace(/<!--\s*PROJECTS_TILES\s*-->[\s\S]*?<!--\s*\/PROJECTS_TILES\s*-->/, `<!-- PROJECTS_TILES -->${projectsHtml}<!-- /PROJECTS_TILES -->`);
+    html = html.replace(/<!--\s*NOTES_TILES\s*-->[\s\S]*?<!--\s*\/NOTES_TILES\s*-->/, `<!-- NOTES_TILES -->${notesHtml}<!-- /NOTES_TILES -->`);
 
     // About section (if admin has saved it)
     if (d.about) {
@@ -337,8 +337,8 @@ app.get('/admin', (req, res) => {
     const notesHtml = notes.map(noteTile).join('\n') ||
       `    <article class="tile glass" data-id="" data-type="note"><div class="shot"><em>Add a note</em></div><h3 class="name">Entry title</h3><p class="blurb">What you observed.</p></article>`;
 
-    html = html.replace('<!-- PROJECTS_TILES -->', projectsHtml);
-    html = html.replace('<!-- NOTES_TILES -->', notesHtml);
+    html = html.replace(/<!--\s*PROJECTS_TILES\s*-->[\s\S]*?<!--\s*\/PROJECTS_TILES\s*-->/, `<!-- PROJECTS_TILES -->${projectsHtml}<!-- /PROJECTS_TILES -->`);
+    html = html.replace(/<!--\s*NOTES_TILES\s*-->[\s\S]*?<!--\s*\/NOTES_TILES\s*-->/, `<!-- NOTES_TILES -->${notesHtml}<!-- /NOTES_TILES -->`);
 
     if (d.about) {
       const a = d.about;

@@ -122,6 +122,12 @@
              color:var(--grey-dim); margin-bottom:8px; }
   .facts .v{ font-size:13px; font-weight:300; color:var(--white); }
   .facts div:first-child .v{ font-size:44px; font-weight:300; }
+  .facts .v .tag{
+    display:inline-block; padding:3px 10px; border-radius:999px;
+    border:1px solid rgba(255,255,255,.22); font-size:9px; font-weight:500;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--white);
+    margin:3px 3px;
+  }
   @media (max-width:640px){
     .facts div{ border-left:none; border-top:1px solid var(--line); }
     .facts div:first-child{ border-top:none; }
@@ -242,9 +248,9 @@
 
   <div class="facts glass">
     <div><div class="k">Year</div><div class="v">2026</div></div>
-    <div><div class="k">Discipline</div><div class="v">Modeling &middot; Sculpting &middot; Rigging</div></div>
-    <div><div class="k">Tools</div><div class="v">Blender</div></div>
-    <div><div class="k">Role</div><div class="v">Solo</div></div>
+    <div><div class="k">Discipline</div><div class="v"><span class="tag">Modeling</span><span class="tag">Sculpting</span><span class="tag">Rigging</span></div></div>
+    <div><div class="k">Tools</div><div class="v"><span class="tag">Blender</span></div></div>
+    <div><div class="k">Role</div><div class="v"><span class="tag">Solo</span></div></div>
   </div>
 </header>
 

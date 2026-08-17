@@ -19,7 +19,7 @@
         "Electronics",
         "ESP-32"
       ],
-      "blurb": "This is a small pod that is capable of measuring temperature and humidity and put the data online.",
+      "blurb": "This is a small pod that is capable of measuring <strong>Temperature</strong> and <strong>humidity</strong> and put the data <strong>online</strong>.",
       "status": "coming-soon",
       "link": null,
       "image": null

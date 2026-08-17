@@ -14,7 +14,7 @@
     },
     {
       "id": "weather",
-      "name": "Weather Station",
+      "name": "Weather Pod",
       "tags": [
         "Electronics",
         "ESP-32"

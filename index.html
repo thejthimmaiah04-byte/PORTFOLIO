@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" id="favicon" href="/uploads/profile.jpg" type="image/jpeg">
+<link rel="icon" id="favicon" type="image/png">
 <script>
 (function(){
   var img=new Image();
@@ -18,12 +18,10 @@
     c.width=c.height=s;
     var ctx=c.getContext('2d');
     ctx.beginPath();ctx.arc(s/2,s/2,s/2,0,2*Math.PI);ctx.closePath();ctx.clip();
-    /* centre-crop: scale so shorter side fills the square */
     var scale=Math.max(s/img.naturalWidth,s/img.naturalHeight);
     var w=img.naturalWidth*scale,h=img.naturalHeight*scale;
     ctx.drawImage(img,(s-w)/2,(s-h)*0.18,w,h);
-    var lnk=document.getElementById('favicon');
-    lnk.type='image/png';lnk.href=c.toDataURL('image/png');
+    document.getElementById('favicon').href=c.toDataURL('image/png');
   };
   img.src='/uploads/profile.jpg';
 })();

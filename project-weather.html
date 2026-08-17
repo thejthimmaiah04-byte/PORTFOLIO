@@ -111,6 +111,12 @@
   .facts .k{ font-size:9px; font-weight:500; letter-spacing:.28em; text-transform:uppercase;
              color:var(--grey-dim); margin-bottom:8px; }
   .facts .v{ font-size:13px; font-weight:300; color:var(--white); }
+  .facts .v .tag{
+    display:inline-block; padding:3px 10px; border-radius:999px;
+    border:1px solid rgba(255,255,255,.22); font-size:9px; font-weight:500;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--white);
+    margin:3px 3px;
+  }
   @media (max-width:640px){
     .facts div{ border-left:none; border-top:1px solid var(--line); }
     .facts div:first-child{ border-top:none; }
@@ -207,7 +213,7 @@
     <div><div class="k">Year</div><div class="v">2026</div></div>
     <div><div class="k">Discipline</div><div class="v">Electronics &middot; Firmware</div></div>
     <div><div class="k">Tools</div><div class="v">ESP-32 &middot; Arduino IDE</div></div>
-    <div><div class="k">Role</div><div class="v">Designer &middot; Developer</div></div>
+    <div><div class="k">Role</div><div class="v"><span class="tag">Designer</span><span class="tag">Developer</span></div></div>
   </div>
 </header>
 

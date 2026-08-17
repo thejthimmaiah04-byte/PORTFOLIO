@@ -22,7 +22,7 @@
       ],
       "blurb": "A small pod that measures <strong>Temperature</strong> and <strong>humidity</strong>, and puts the data <strong>online</strong>.",
       "status": "in-progress",
-      "link": null,
+      "link": "project-weather.html",
       "image": null
     },
     {

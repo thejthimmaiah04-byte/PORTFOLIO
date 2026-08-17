@@ -19,7 +19,7 @@
         "Electronics",
         "ESP-32"
       ],
-      "blurb": "A custom ESP-32 weather station. Logs temperature, humidity and pressure to an SD card and serves a live dashboard over Wi-Fi.",
+      "blurb": "This is a small pod that is capable of measuring temperature and humidity and put the data online.",
       "status": "coming-soon",
       "link": null,
       "image": null

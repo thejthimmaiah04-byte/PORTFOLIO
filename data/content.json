@@ -15,11 +15,12 @@
     {
       "id": "weather",
       "name": "Weather Pod",
+      "contributors": [{ "name": "Thimmaiah", "isOwner": true }],
       "tags": [
         "Electronics",
         "ESP-32"
       ],
-      "blurb": "This is a small pod that is capable of measuring <strong>Temperature</strong> and <strong>humidity</strong><br>and put the data <strong>online</strong>.",
+      "blurb": "A small pod that measures <strong>Temperature</strong> and <strong>humidity</strong>,<br>and puts the data <strong>online</strong>.",
       "status": "coming-soon",
       "link": null,
       "image": null

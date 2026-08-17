@@ -191,19 +191,26 @@
   .nav.stuck{
     background:var(--black);
     border-bottom-color:var(--line);
-    padding-top:5px; padding-bottom:5px;
+    padding-top:8px; padding-bottom:8px;
     overflow:visible;
+    align-items:center;
   }
   .nav > *{ pointer-events:auto; }
   .logo{
     width:56px; height:56px; border-radius:50%; overflow:hidden; flex-shrink:0;
     border:2px solid rgba(255,255,255,.22);
+    background:var(--black);
     transition:transform .35s ease;
   }
-  .nav.stuck .logo{ transform:translateY(22px); }
+  /* pull logo out of flow when stuck so bar height = links + padding only */
+  .nav.stuck .logo{
+    position:absolute; left:var(--gutter);
+    top:50%; transform:translateY(10px);
+    z-index:82;
+  }
   .logo img{ width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
   .nav .links{ display:flex; gap:30px; transition:transform .35s ease; }
-  .nav.stuck .links{ transform:translateY(14px); }
+  .nav.stuck .links{ transform:none; }
   .nav .links a{ font-size:9px; font-weight:500; letter-spacing:.3em;
     text-transform:uppercase; color:var(--grey); transition:color .25s; }
   .nav .links a:hover{ color:var(--white); }

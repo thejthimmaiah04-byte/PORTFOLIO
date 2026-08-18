@@ -438,7 +438,7 @@
     border-color:var(--accent); color:var(--accent); opacity:.85;
   }
   /* ── Contributor avatars ───────────────────────────────────────────────── */
-  .tile{ position:relative; }
+  .tile{ position:relative; overflow:visible; }
   .tile-contributors{
     position:absolute; bottom:14px; right:14px;
     display:flex; align-items:center; gap:6px;
@@ -451,8 +451,20 @@
     flex-shrink:0;
   }
   .t-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .t-avatar--logo{ background:#7a2e0e; }
+  .t-avatar--logo{
+    background:#7a2e0e;
+    transform-origin:50% 100%;
+    transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s;
+    cursor:default;
+  }
   .t-avatar--logo img{ object-fit:contain; padding:0; }
+  .t-avatar--logo:hover{
+    transform:translateY(-30px) scale(3.6);
+    box-shadow:0 14px 28px -8px rgba(0,0,0,.55);
+    border-color:var(--accent);
+    z-index:10;
+  }
+  .tile-contributors{ overflow:visible; }
   .t-avatar .t-initials{
     font-size:11px; font-weight:700; letter-spacing:.04em;
     color:var(--accent,#d4691e);

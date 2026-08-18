@@ -453,13 +453,13 @@
   .t-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
   .t-avatar--logo{
     background:#7a2e0e;
-    transform-origin:50% 100%;
+    transform-origin:center center;
     transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s;
     cursor:default;
   }
   .t-avatar--logo img{ object-fit:contain; padding:0; }
   .t-avatar--logo:hover{
-    transform:translateY(-30px) scale(3.6);
+    transform:scale(2.2);
     box-shadow:0 14px 28px -8px rgba(0,0,0,.55);
     border-color:var(--accent);
     z-index:10;
